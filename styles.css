@@ -11,6 +11,7 @@ h1 {
   width: 33%;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 25px;
 }
 
 body {
@@ -20,7 +21,24 @@ body {
 }
 
 h2 {
+  margin-top: 30px;
   color: rgb(13, 13, 14);
   width: 50%;
   background-color: rgb(231, 218, 167);
+  text-align: center;
+  border-radius: 10px;
+}
+
+h3 {
+  margin-top: 1px;
+  margin-left: 150px;
+  color: rgb(13, 13, 14);
+  width: 25%;
+  background-color: rgb(231, 218, 167);
+  text-align: center;
+  border-radius: 10px;
+}
+
+#itemlist {
+    display: inline;
 }
