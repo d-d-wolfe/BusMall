@@ -40,5 +40,16 @@ h3 {
 }
 
 #itemlist {
-    display: inline;
+  display: inline;
+}
+
+#itemlist > li {
+height: 375px;
+width: 300px;
+margin-top: 45px;
+}
+
+#itemlist > li > img {
+height: 375px;
+width: 300px;
 }
