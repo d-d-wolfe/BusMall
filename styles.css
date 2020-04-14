@@ -1,0 +1,44 @@
+
+* {
+  outline: 1px dotted red;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-family: 'Baloo Paaji 2', cursive;
+  text-align: center;
+  background-color: cyan;
+  width: 33%;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 25px;
+}
+
+body {
+  background-image: url("https://www.ashevillenc.gov/wp-content/uploads/2018/10/P1220005-450x253.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h2 {
+  margin-top: 30px;
+  color: rgb(13, 13, 14);
+  width: 50%;
+  background-color: rgb(231, 218, 167);
+  text-align: center;
+  border-radius: 10px;
+}
+
+h3 {
+  margin-top: 1px;
+  margin-left: 150px;
+  color: rgb(13, 13, 14);
+  width: 25%;
+  background-color: rgb(231, 218, 167);
+  text-align: center;
+  border-radius: 10px;
+}
+
+#itemlist {
+    display: inline;
+}
