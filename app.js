@@ -101,8 +101,30 @@ new ItemPics('banana', 'pictures/banana.jpg');
 new ItemPics('bathroom', 'pictures/bathroom.jpg');
 new ItemPics('boots', 'pictures/boots.jpg');
 
-function 
+//function 
 
 var randomPics = getRandomPics();
 renderPics(allPics[randomPics[0]], allPics[randomPics[1]], allPics[randomPics[2]]);
 console.log(allPics);
+
+
+
+var ctx = document.getElementById('buschart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
