@@ -27,6 +27,7 @@ function renderPics(picOne, picTwo, picThree) {
   var newImg = document.createElement('img');
   newImg.src = picOne.imageSrc;
   newImg.id = picOne.imageSrc;
+  console.log(picOne);
 
   newLi1.appendChild(newImg);
   newLi1.appendChild(clickInfo);
@@ -78,18 +79,30 @@ console.log('newLi3', newLi3);
     }
     //console.log(allPics[0].clickCount)
     //console.log(index);
-    allPics[index].clickCount++;
+    allPics[index].clickCount++; // clicks are being counted in the array 'index'
+
+    //===================Rerendering=====================
+    // remove pics
+    // re-render (call the render function)
+    var target = document.getElementById('itemlist');
+    target.innerHTML = '';
+    var newPics = getRandomPics();
+    renderPics(newPics[0], newPics[1], newPics[2]);
   }
 
 function getRandomPics(){
     var returnArr = [];  
-    var randomPic = Math.floor(Math.random() * allPics.length);
+    //
+    var randomPicIndex = Math.floor(Math.random() * allPics.length); //creates a random index
+    var randomPic = allPics[randomPicIndex]; //pulls an object out of the allpix array using the random index I calculated.
+    returnArr.push(randomPic); //pushes the random pic into the returnArr
+
+    randomPic = allPics[randomPicIndex];
+    randomPicIndex = Math.floor(Math.random() * allPics.length);
     returnArr.push(randomPic);
 
-    randomPic = Math.floor(Math.random() * allPics.length);
-    returnArr.push(randomPic);
-
-    randomPic = Math.floor(Math.random() * allPics.length);
+    randomPicIndex = Math.floor(Math.random() * allPics.length);
+    randomPic = allPics[randomPicIndex];
     returnArr.push(randomPic);
 
     return returnArr;
@@ -100,12 +113,27 @@ new ItemPics('bag', 'pictures/bag.jpg');
 new ItemPics('banana', 'pictures/banana.jpg');
 new ItemPics('bathroom', 'pictures/bathroom.jpg');
 new ItemPics('boots', 'pictures/boots.jpg');
+new ItemPics('breakfast', 'pictures/breakfast.jpg');
+new ItemPics('bubblegum', 'pictures/bubblegum.jpg');
+new ItemPics('chair', 'pictures/chair.jpg');
+new ItemPics('cthulhu', 'pictures/cthulhu.jpg');
+new ItemPics('dog-duck', 'pictures/dog-duck.jpg');
+new ItemPics('dragon', 'pictures/dragon.jpg');
+new ItemPics('pen', 'pictures/pen.jpg');
+new ItemPics('scissors', 'pictures/scissors.jpg');
+new ItemPics('shark', 'pictures/shark.jpg');
+new ItemPics('sweep', 'pictures/sweep.png');
+new ItemPics('tauntaun', 'pictures/tauntaun.jpg');
+new ItemPics('unicorn', 'pictures/unicorn.jpg');
+new ItemPics('usb', 'pictures/usb.gif');
+new ItemPics('water-can', 'pictures/water-can.jpg');
+new ItemPics('wine-glass', 'pictures/wine-glass.jpg');
 
 //function 
 
 var randomPics = getRandomPics();
-renderPics(allPics[randomPics[0]], allPics[randomPics[1]], allPics[randomPics[2]]);
-console.log(allPics);
+renderPics(randomPics[0], randomPics[1], randomPics[2]);
+console.log();
 
 
 
