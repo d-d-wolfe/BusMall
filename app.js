@@ -159,6 +159,28 @@ console.log();
 // Add local storage
 //localStorage.setItem('totalClicks', totalClicks);
 //
+
+function getProductNames(){
+  var nameArr = [];
+  for (var i = 0; i < allPics.length; i++)
+    nameArr.push(allPics[i].nameOfProduct);
+  return nameArr;
+}
+
+function getClickCounts(){
+  var clickArr = [];
+  for (var i = 0; i < allPics.length; i++)
+    clickArr.push(allPics[i].clickCount);
+  return clickArr;
+}
+
+function getViews(){
+  var viewArr = [];
+  for (var i = 0; i < allPics.length; i++)
+    viewArr.push(allPics[i].viewed);
+  return viewArr;
+}
+
 var ctx = document.getElementById('buschart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -166,10 +188,10 @@ var chart = new Chart(ctx, {
 
     // The data for our dataset
     data: {
-        labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'],
+        labels: getProductNames(),
         datasets: [{
-            label: 'bag',
-            data: [totalClicks, this.viewed],
+            label: 'click count',
+            data: getClickCounts(),
             backgroundColor: ['rgb(104, 99, 99)',
             'rgba(1, 1, 1, 0.4)'
             ],
@@ -177,257 +199,15 @@ var chart = new Chart(ctx, {
               'rgba(255, 99, 132, 1)',
               'rgba(54, 162, 235, 1)',
             ],
-            
+            borderWidth: 1
+          }, 
+        {
+          label: 'total views',
+          data: getViews()
+        }]
         
           },
-          {
-            label: 'banana',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-        },
-      
-          {
-            label: 'bathroom',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-        },
-  
-          {
-            label: 'boots',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'breakfast',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
           
-          {
-            label: 'bubblegum',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'chair',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'cthulhu',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'dog-duck',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'dragon',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'pen',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'pet-sweep',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'scissors',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'shark',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-          {
-            label: 'sweep',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'tauntaun',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'unicorn',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'usb',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'water-can',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'wine-glass',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-    ]
-    },
 
     // Configuration options go here
     options: {
