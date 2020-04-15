@@ -2,6 +2,7 @@
 
 var allPics = [];
 var totalClicks = 0;
+var maxClicks = 25;
 //create constructor function 
 //  name of product
 //  image-filepath
@@ -9,12 +10,14 @@ function ItemPics(nameOfProduct, imageSrc){
   this.nameOfProduct = nameOfProduct;
   this.imageSrc = imageSrc;
   this.clickCount = 0;
+  this.viewed = 0;
 
 allPics.push(this);
 }
 
 //render to page the list items and pictures
 function renderPics(picOne, picTwo, picThree) {
+  console.log('In renderPics ', picOne);
   var target = document.getElementById('itemlist');
   var newLi1 = document.createElement('li');
   var newLi2 = document.createElement('li');
@@ -27,7 +30,9 @@ function renderPics(picOne, picTwo, picThree) {
   var newImg = document.createElement('img');
   newImg.src = picOne.imageSrc;
   newImg.id = picOne.imageSrc;
-  console.log(picOne);
+  //console.log(picOne);
+
+
 
   newLi1.appendChild(newImg);
   newLi1.appendChild(clickInfo);
@@ -64,6 +69,10 @@ console.log('newLi3', newLi3);
 };
 
   function imageClick (event){
+    if (totalClicks >= maxClicks){
+      return 
+    }
+     
    // console.log('image clicked ', event.target.src);
     var tempSrc = event.target.src.split('/').pop();
     var index
@@ -80,7 +89,7 @@ console.log('newLi3', newLi3);
     //console.log(allPics[0].clickCount)
     //console.log(index);
     allPics[index].clickCount++; // clicks are being counted in the array 'index'
-
+    totalClicks++;
     //===================Rerendering=====================
     // remove pics
     // re-render (call the render function)
@@ -95,15 +104,27 @@ function getRandomPics(){
     //
     var randomPicIndex = Math.floor(Math.random() * allPics.length); //creates a random index
     var randomPic = allPics[randomPicIndex]; //pulls an object out of the allpix array using the random index I calculated.
+    allPics[randomPicIndex].viewed++;
     returnArr.push(randomPic); //pushes the random pic into the returnArr
 
-    randomPic = allPics[randomPicIndex];
+     //stops it from picking the same pic as the first time
     randomPicIndex = Math.floor(Math.random() * allPics.length);
+    while (randomPicIndex === returnArr[0]){
+      randomPicIndex = Math.floor(Math.random() * allPics.length);
+      }
+      randomPic = allPics[randomPicIndex];
+      allPics[randomPicIndex].viewed++;
     returnArr.push(randomPic);
 
-    randomPicIndex = Math.floor(Math.random() * allPics.length);
-    randomPic = allPics[randomPicIndex];
+    //stops it from picking the same pic as the first 2 times
+    randomPicIndex = Math.floor(Math.random() * allPics.length); 
+    while (randomPicIndex === returnArr[0] || randomPicIndex === returnArr[1]){
+      randomPicIndex = Math.floor(Math.random() * allPics.length);
+      }
+      randomPic = allPics[randomPicIndex];
+      allPics[randomPicIndex].viewed++;
     returnArr.push(randomPic);
+    
 
     return returnArr;
   }
