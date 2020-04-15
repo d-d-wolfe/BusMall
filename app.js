@@ -156,8 +156,9 @@ var randomPics = getRandomPics();
 renderPics(randomPics[0], randomPics[1], randomPics[2]);
 console.log();
 
-
-
+// Add local storage
+//localStorage.setItem('totalClicks', totalClicks);
+//
 var ctx = document.getElementById('buschart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -168,7 +169,7 @@ var chart = new Chart(ctx, {
         labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'],
         datasets: [{
             label: 'bag',
-            data: [totalClicks, maxClicks],
+            data: [totalClicks, this.viewed],
             backgroundColor: ['rgb(104, 99, 99)',
             'rgba(1, 1, 1, 0.4)'
             ],
@@ -430,12 +431,15 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
+        responsive: true,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+       
       }
-    }
+    
 });
