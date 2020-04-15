@@ -106,10 +106,10 @@ function getRandomPics(){
     var randomPic = allPics[randomPicIndex]; //pulls an object out of the allpix array using the random index I calculated.
     allPics[randomPicIndex].viewed++;
     returnArr.push(randomPic); //pushes the random pic into the returnArr
-
+    
      //stops it from picking the same pic as the first time
     randomPicIndex = Math.floor(Math.random() * allPics.length);
-    while (randomPicIndex === returnArr[0]){
+    while (allPics[randomPicIndex] === returnArr[0]){
       randomPicIndex = Math.floor(Math.random() * allPics.length);
       }
       randomPic = allPics[randomPicIndex];
@@ -118,7 +118,7 @@ function getRandomPics(){
 
     //stops it from picking the same pic as the first 2 times
     randomPicIndex = Math.floor(Math.random() * allPics.length); 
-    while (randomPicIndex === returnArr[0] || randomPicIndex === returnArr[1]){
+    while (allPics[randomPicIndex] === returnArr[0] || allPics[randomPicIndex] === returnArr[1]){
       randomPicIndex = Math.floor(Math.random() * allPics.length);
       }
       randomPic = allPics[randomPicIndex];
@@ -184,7 +184,7 @@ function getViews(){
 var ctx = document.getElementById('buschart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
-    type: 'line',
+    type: 'bar',
 
     // The data for our dataset
     data: {
@@ -192,8 +192,9 @@ var chart = new Chart(ctx, {
         datasets: [{
             label: 'click count',
             data: getClickCounts(),
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
+            backgroundColor: [
+              'rgb(104, 99, 99)',
+              'rgba(1, 1, 1, 0.4)'
             ],
             borderColor: [
               'rgba(255, 99, 132, 1)',
@@ -202,8 +203,17 @@ var chart = new Chart(ctx, {
             borderWidth: 1
           }, 
         {
-          label: 'total views',
-          data: getViews()
+            label: 'total views',
+            data: getViews(),
+            backgroundColor: [
+                'rgb(100, 125, 125)', 
+                'rgb(255, 200, 150)',
+              ],
+            borderColor: [
+                'rgb(150, 150, 100)',
+            ],
+            borderWidth: 1
+
         }]
         
           },
