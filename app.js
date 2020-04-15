@@ -168,7 +168,7 @@ var chart = new Chart(ctx, {
         labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'],
         datasets: [{
             label: 'bag',
-            data: [],
+            data: [totalClicks, maxClicks],
             backgroundColor: ['rgb(104, 99, 99)',
             'rgba(1, 1, 1, 0.4)'
             ],
@@ -429,5 +429,13 @@ var chart = new Chart(ctx, {
     },
 
     // Configuration options go here
-    options: {}
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
 });
