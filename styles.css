@@ -40,16 +40,24 @@ h3 {
 }
 
 #itemlist {
-  display: inline;
+  
 }
 
 #itemlist > li {
-height: 375px;
-width: 300px;
-margin-top: 45px;
+  display: inline-block;
+  height: 375px;
+  width: 300px;
+  margin-top: 45px;
+  margin-left: 15px;
 }
 
 #itemlist > li > img {
 height: 375px;
 width: 300px;
+}
+
+#buschart {
+  margin-top: 45px;
+  height: 300px;
+  width: 300px;
 }
