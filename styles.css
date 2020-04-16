@@ -39,9 +39,6 @@ h3 {
   border-radius: 10px;
 }
 
-#itemlist {
-  
-}
 
 #itemlist > li {
   display: inline-block;
@@ -60,4 +57,6 @@ width: 300px;
   margin-top: 45px;
   height: 300px;
   width: 300px;
+  background-color: rgb(216, 212, 212);
+  
 }

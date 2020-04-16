@@ -6,9 +6,9 @@ var maxClicks = 25;
 //create constructor function 
 //  name of product
 //  image-filepath
-function ItemPics(nameOfProduct, imageSrc){
+function ItemPics(nameOfProduct){
   this.nameOfProduct = nameOfProduct;
-  this.imageSrc = imageSrc;
+  this.imageSrc = 'pictures/' + nameOfProduct;
   this.clickCount = 0;
   this.viewed = 0;
 
@@ -69,20 +69,21 @@ console.log('newLi3', newLi3);
 };
 
   function imageClick (event){
-    if (totalClicks >= maxClicks){
-      return 
+    if (Number(localStorage.totalClicks) >= maxClicks){
+      generateChart();
+      return
     }
-     
-   // console.log('image clicked ', event.target.src);
-    var tempSrc = event.target.src.split('/').pop();
-    var index
-    //console.log('TempSrc', tempSrc.pop());
     
-    var fileName = tempSrc.split('.');
+   // console.log('image clicked ', event.target.src);
+    var tempSrc = event.target.src.split('/');
+    var index
+    console.log('TempSrc', tempSrc);
+    
+    var fileName = tempSrc[4];
     //console.log('filename', fileName[0]);
     for (var i = 0; i < allPics.length; i++){
      // console.log(allPics[i].nameOfProduct);
-      if (allPics[i].nameOfProduct == fileName[0]){
+      if (allPics[i].nameOfProduct == fileName){
         index = i;
       }
     }
@@ -90,6 +91,7 @@ console.log('newLi3', newLi3);
     //console.log(index);
     allPics[index].clickCount++; // clicks are being counted in the array 'index'
     totalClicks++;
+    localStorage.totalClicks = totalClicks;
     //===================Rerendering=====================
     // remove pics
     // re-render (call the render function)
@@ -105,337 +107,157 @@ function getRandomPics(){
     var randomPicIndex = Math.floor(Math.random() * allPics.length); //creates a random index
     var randomPic = allPics[randomPicIndex]; //pulls an object out of the allpix array using the random index I calculated.
     allPics[randomPicIndex].viewed++;
+    localStorage.allPics = JSON.stringify(allPics);
     returnArr.push(randomPic); //pushes the random pic into the returnArr
-
+    
      //stops it from picking the same pic as the first time
     randomPicIndex = Math.floor(Math.random() * allPics.length);
-    while (randomPicIndex === returnArr[0]){
+    while (allPics[randomPicIndex] === returnArr[0]){
       randomPicIndex = Math.floor(Math.random() * allPics.length);
       }
       randomPic = allPics[randomPicIndex];
       allPics[randomPicIndex].viewed++;
+      localStorage.allPics = JSON.stringify(allPics);
     returnArr.push(randomPic);
 
     //stops it from picking the same pic as the first 2 times
     randomPicIndex = Math.floor(Math.random() * allPics.length); 
-    while (randomPicIndex === returnArr[0] || randomPicIndex === returnArr[1]){
+    while (allPics[randomPicIndex] === returnArr[0] || allPics[randomPicIndex] === returnArr[1]){
       randomPicIndex = Math.floor(Math.random() * allPics.length);
       }
       randomPic = allPics[randomPicIndex];
       allPics[randomPicIndex].viewed++;
+      localStorage.allPics = JSON.stringify(allPics);
     returnArr.push(randomPic);
     
 
     return returnArr;
   }
   //console.log(putPicsOnPage);
+  // create a function to initialize the page and check local storage
+  // if nothing is in local storage, run the page through the constructor
+  // otherwise pull from local storage
 
-new ItemPics('bag', 'pictures/bag.jpg');
-new ItemPics('banana', 'pictures/banana.jpg');
-new ItemPics('bathroom', 'pictures/bathroom.jpg');
-new ItemPics('boots', 'pictures/boots.jpg');
-new ItemPics('breakfast', 'pictures/breakfast.jpg');
-new ItemPics('bubblegum', 'pictures/bubblegum.jpg');
-new ItemPics('chair', 'pictures/chair.jpg');
-new ItemPics('cthulhu', 'pictures/cthulhu.jpg');
-new ItemPics('dog-duck', 'pictures/dog-duck.jpg');
-new ItemPics('dragon', 'pictures/dragon.jpg');
-new ItemPics('pen', 'pictures/pen.jpg');
-new ItemPics('scissors', 'pictures/scissors.jpg');
-new ItemPics('shark', 'pictures/shark.jpg');
-new ItemPics('sweep', 'pictures/sweep.png');
-new ItemPics('tauntaun', 'pictures/tauntaun.jpg');
-new ItemPics('unicorn', 'pictures/unicorn.jpg');
-new ItemPics('usb', 'pictures/usb.gif');
-new ItemPics('water-can', 'pictures/water-can.jpg');
-new ItemPics('wine-glass', 'pictures/wine-glass.jpg');
+function initializePage(){
+  if (!localStorage.allPics){
+    new ItemPics('bag.jpg');
+    new ItemPics('banana.jpg');
+    new ItemPics('bathroom.jpg');
+    new ItemPics('boots.jpg');
+    new ItemPics('breakfast.jpg');
+    new ItemPics('bubblegum.jpg');
+    new ItemPics('chair.jpg');
+    new ItemPics('cthulhu.jpg');
+    new ItemPics('dog-duck.jpg');
+    new ItemPics('dragon.jpg');
+    new ItemPics('pen.jpg');
+    new ItemPics('scissors.jpg');
+    new ItemPics('shark.jpg');
+    new ItemPics('sweep.png');
+    new ItemPics('tauntaun.jpg');
+    new ItemPics('unicorn.jpg');
+    new ItemPics('usb.gif');
+    new ItemPics('water-can.jpg');
+    new ItemPics('wine-glass.jpg');
 
+    localStorage.allPics = JSON.stringify(allPics);
+    var randomPics = getRandomPics();
+    renderPics(randomPics[0], randomPics[1], randomPics[2]);
+    } else {
+      //console.log(JSON.parse(localStorage.allPics));
+      allPics = JSON.parse(localStorage.allPics);
+    }
+    if (Number(localStorage.totalClicks) >= maxClicks) {
+      generateChart();
+    }
+}
+
+initializePage();
 //function 
 
-var randomPics = getRandomPics();
-renderPics(randomPics[0], randomPics[1], randomPics[2]);
-console.log();
 
+//console.log();
 
+// Add local storage
+//localStorage.setItem('totalClicks', totalClicks);
+//
 
-var ctx = document.getElementById('buschart').getContext('2d');
+function getProductNames(){
+  var nameArr = [];
+  for (var i = 0; i < allPics.length; i++)
+    nameArr.push(allPics[i].nameOfProduct);
+  return nameArr;
+}
+
+function getClickCounts(){
+  var clickArr = [];
+  for (var i = 0; i < allPics.length; i++)
+    clickArr.push(allPics[i].clickCount);
+  return clickArr;
+}
+
+function getViews(){
+  var viewArr = [];
+  for (var i = 0; i < allPics.length; i++)
+    viewArr.push(allPics[i].viewed);
+  return viewArr;
+}
+
+function generateChart(){
+  var ImageBox = document.getElementById('itemlist');
+  ImageBox.innerHTML = '';
+
+  var ctx = document.getElementById('buschart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
-    type: 'line',
+    type: 'bar',
 
     // The data for our dataset
     data: {
-        labels: ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'sweep', 'tauntaun', 'unicorn', 'usb', 'water-can', 'wine-glass'],
+        labels: getProductNames(),
         datasets: [{
-            label: 'bag',
-            data: [totalClicks, maxClicks],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
+            label: 'click count',
+            data: getClickCounts(),
+            backgroundColor: [
+              'black',
+              
             ],
             borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
+              'black',
+              
             ],
-            
+            borderWidth: 1
+          }, 
+        {
+            label: 'total views',
+            data: getViews(),
+            backgroundColor: [
+                'rgb(100, 125, 125)', 
+                
+              ],
+            borderColor: [
+                'rgb(150, 150, 100)',
+            ],
+            borderWidth: 1
+
+        }]
         
           },
-          {
-            label: 'banana',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-        },
-      
-          {
-            label: 'bathroom',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-        },
-  
-          {
-            label: 'boots',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'breakfast',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
           
-          {
-            label: 'bubblegum',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'chair',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'cthulhu',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'dog-duck',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'dragon',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'pen',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'pet-sweep',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'scissors',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'shark',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-          {
-            label: 'sweep',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'tauntaun',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'unicorn',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'usb',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'water-can',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-
-          {
-            label: 'wine-glass',
-            data: [],
-            backgroundColor: ['rgb(104, 99, 99)',
-            'rgba(1, 1, 1, 0.4)'
-            ],
-            borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-            ],
-            
-          },
-    ]
-    },
 
     // Configuration options go here
     options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
+        // responsive: true,
+        // scales: {
+        //   yAxes: [{
+        //     ticks: {
+        //       beginAtZero: true
+        //     }
+        //   }]
+        // }
+       
       }
-    }
+    
 });
+}
+
