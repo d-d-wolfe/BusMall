@@ -6,9 +6,9 @@ var maxClicks = 25;
 //create constructor function 
 //  name of product
 //  image-filepath
-function ItemPics(nameOfProduct, imageSrc){
+function ItemPics(nameOfProduct){
   this.nameOfProduct = nameOfProduct;
-  this.imageSrc = imageSrc;
+  this.imageSrc = 'pictures/' + nameOfProduct;
   this.clickCount = 0;
   this.viewed = 0;
 
@@ -69,20 +69,21 @@ console.log('newLi3', newLi3);
 };
 
   function imageClick (event){
-    if (totalClicks >= maxClicks){
-      return 
+    if (Number(localStorage.totalClicks) >= maxClicks){
+      generateChart();
+      return
     }
-     
-   // console.log('image clicked ', event.target.src);
-    var tempSrc = event.target.src.split('/').pop();
-    var index
-    //console.log('TempSrc', tempSrc.pop());
     
-    var fileName = tempSrc.split('.');
+   // console.log('image clicked ', event.target.src);
+    var tempSrc = event.target.src.split('/');
+    var index
+    console.log('TempSrc', tempSrc);
+    
+    var fileName = tempSrc[4];
     //console.log('filename', fileName[0]);
     for (var i = 0; i < allPics.length; i++){
      // console.log(allPics[i].nameOfProduct);
-      if (allPics[i].nameOfProduct == fileName[0]){
+      if (allPics[i].nameOfProduct == fileName){
         index = i;
       }
     }
@@ -90,6 +91,7 @@ console.log('newLi3', newLi3);
     //console.log(index);
     allPics[index].clickCount++; // clicks are being counted in the array 'index'
     totalClicks++;
+    localStorage.totalClicks = totalClicks;
     //===================Rerendering=====================
     // remove pics
     // re-render (call the render function)
@@ -105,6 +107,7 @@ function getRandomPics(){
     var randomPicIndex = Math.floor(Math.random() * allPics.length); //creates a random index
     var randomPic = allPics[randomPicIndex]; //pulls an object out of the allpix array using the random index I calculated.
     allPics[randomPicIndex].viewed++;
+    localStorage.allPics = JSON.stringify(allPics);
     returnArr.push(randomPic); //pushes the random pic into the returnArr
     
      //stops it from picking the same pic as the first time
@@ -114,6 +117,7 @@ function getRandomPics(){
       }
       randomPic = allPics[randomPicIndex];
       allPics[randomPicIndex].viewed++;
+      localStorage.allPics = JSON.stringify(allPics);
     returnArr.push(randomPic);
 
     //stops it from picking the same pic as the first 2 times
@@ -123,38 +127,56 @@ function getRandomPics(){
       }
       randomPic = allPics[randomPicIndex];
       allPics[randomPicIndex].viewed++;
+      localStorage.allPics = JSON.stringify(allPics);
     returnArr.push(randomPic);
     
 
     return returnArr;
   }
   //console.log(putPicsOnPage);
+  // create a function to initialize the page and check local storage
+  // if nothing is in local storage, run the page through the constructor
+  // otherwise pull from local storage
 
-new ItemPics('bag', 'pictures/bag.jpg');
-new ItemPics('banana', 'pictures/banana.jpg');
-new ItemPics('bathroom', 'pictures/bathroom.jpg');
-new ItemPics('boots', 'pictures/boots.jpg');
-new ItemPics('breakfast', 'pictures/breakfast.jpg');
-new ItemPics('bubblegum', 'pictures/bubblegum.jpg');
-new ItemPics('chair', 'pictures/chair.jpg');
-new ItemPics('cthulhu', 'pictures/cthulhu.jpg');
-new ItemPics('dog-duck', 'pictures/dog-duck.jpg');
-new ItemPics('dragon', 'pictures/dragon.jpg');
-new ItemPics('pen', 'pictures/pen.jpg');
-new ItemPics('scissors', 'pictures/scissors.jpg');
-new ItemPics('shark', 'pictures/shark.jpg');
-new ItemPics('sweep', 'pictures/sweep.png');
-new ItemPics('tauntaun', 'pictures/tauntaun.jpg');
-new ItemPics('unicorn', 'pictures/unicorn.jpg');
-new ItemPics('usb', 'pictures/usb.gif');
-new ItemPics('water-can', 'pictures/water-can.jpg');
-new ItemPics('wine-glass', 'pictures/wine-glass.jpg');
+function initializePage(){
+  if (!localStorage.allPics){
+    new ItemPics('bag.jpg');
+    new ItemPics('banana.jpg');
+    new ItemPics('bathroom.jpg');
+    new ItemPics('boots.jpg');
+    new ItemPics('breakfast.jpg');
+    new ItemPics('bubblegum.jpg');
+    new ItemPics('chair.jpg');
+    new ItemPics('cthulhu.jpg');
+    new ItemPics('dog-duck.jpg');
+    new ItemPics('dragon.jpg');
+    new ItemPics('pen.jpg');
+    new ItemPics('scissors.jpg');
+    new ItemPics('shark.jpg');
+    new ItemPics('sweep.png');
+    new ItemPics('tauntaun.jpg');
+    new ItemPics('unicorn.jpg');
+    new ItemPics('usb.gif');
+    new ItemPics('water-can.jpg');
+    new ItemPics('wine-glass.jpg');
 
+    localStorage.allPics = JSON.stringify(allPics);
+    var randomPics = getRandomPics();
+    renderPics(randomPics[0], randomPics[1], randomPics[2]);
+    } else {
+      //console.log(JSON.parse(localStorage.allPics));
+      allPics = JSON.parse(localStorage.allPics);
+    }
+    if (Number(localStorage.totalClicks) >= maxClicks) {
+      generateChart();
+    }
+}
+
+initializePage();
 //function 
 
-var randomPics = getRandomPics();
-renderPics(randomPics[0], randomPics[1], randomPics[2]);
-console.log();
+
+//console.log();
 
 // Add local storage
 //localStorage.setItem('totalClicks', totalClicks);
@@ -181,7 +203,11 @@ function getViews(){
   return viewArr;
 }
 
-var ctx = document.getElementById('buschart').getContext('2d');
+function generateChart(){
+  var ImageBox = document.getElementById('itemlist');
+  ImageBox.innerHTML = '';
+
+  var ctx = document.getElementById('buschart').getContext('2d');
 var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'bar',
@@ -193,12 +219,12 @@ var chart = new Chart(ctx, {
             label: 'click count',
             data: getClickCounts(),
             backgroundColor: [
-              'rgb(104, 99, 99)',
-              'rgba(1, 1, 1, 0.4)'
+              'black',
+              
             ],
             borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
+              'black',
+              
             ],
             borderWidth: 1
           }, 
@@ -207,7 +233,7 @@ var chart = new Chart(ctx, {
             data: getViews(),
             backgroundColor: [
                 'rgb(100, 125, 125)', 
-                'rgb(255, 200, 150)',
+                
               ],
             borderColor: [
                 'rgb(150, 150, 100)',
@@ -221,15 +247,17 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
-        responsive: true,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
+        // responsive: true,
+        // scales: {
+        //   yAxes: [{
+        //     ticks: {
+        //       beginAtZero: true
+        //     }
+        //   }]
+        // }
        
       }
     
 });
+}
+
