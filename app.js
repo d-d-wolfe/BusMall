@@ -96,7 +96,7 @@ console.log('newLi3', newLi3);
     // remove pics
     // re-render (call the render function)
     var target = document.getElementById('itemlist');
-    target.innerHTML = '';
+    target.innerHTML = ''; // removes the pics from the page
     var newPics = getRandomPics();
     renderPics(newPics[0], newPics[1], newPics[2]);
   }
@@ -107,7 +107,7 @@ function getRandomPics(){
     var randomPicIndex = Math.floor(Math.random() * allPics.length); //creates a random index
     var randomPic = allPics[randomPicIndex]; //pulls an object out of the allpix array using the random index I calculated.
     allPics[randomPicIndex].viewed++;
-    localStorage.allPics = JSON.stringify(allPics);
+    localStorage.allPics = JSON.stringify(allPics); // Add local storage
     returnArr.push(randomPic); //pushes the random pic into the returnArr
     
      //stops it from picking the same pic as the first time
@@ -117,7 +117,7 @@ function getRandomPics(){
       }
       randomPic = allPics[randomPicIndex];
       allPics[randomPicIndex].viewed++;
-      localStorage.allPics = JSON.stringify(allPics);
+      localStorage.allPics = JSON.stringify(allPics); // Add local storage
     returnArr.push(randomPic);
 
     //stops it from picking the same pic as the first 2 times
@@ -127,7 +127,7 @@ function getRandomPics(){
       }
       randomPic = allPics[randomPicIndex];
       allPics[randomPicIndex].viewed++;
-      localStorage.allPics = JSON.stringify(allPics);
+      localStorage.allPics = JSON.stringify(allPics); // Add local storage
     returnArr.push(randomPic);
     
 
@@ -160,14 +160,14 @@ function initializePage(){
     new ItemPics('water-can.jpg');
     new ItemPics('wine-glass.jpg');
 
-    localStorage.allPics = JSON.stringify(allPics);
+    localStorage.allPics = JSON.stringify(allPics); // Add local storage
     var randomPics = getRandomPics();
     renderPics(randomPics[0], randomPics[1], randomPics[2]);
     } else {
       //console.log(JSON.parse(localStorage.allPics));
       allPics = JSON.parse(localStorage.allPics);
     }
-    if (Number(localStorage.totalClicks) >= maxClicks) {
+    if (Number(localStorage.totalClicks) >= maxClicks) { // Add local storage
       generateChart();
     }
 }
@@ -178,7 +178,7 @@ initializePage();
 
 //console.log();
 
-// Add local storage
+
 //localStorage.setItem('totalClicks', totalClicks);
 //
 
