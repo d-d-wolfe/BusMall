@@ -205,7 +205,24 @@ function getViews(){
 
 function generateChart(){
   var ImageBox = document.getElementById('itemlist');
+  var main = document.getElementsByTagName('main')[0];
+  var resetButton = document.createElement('button');
+  resetButton.setAttribute('id', 'reset');
+  resetButton.innerText = 'Reset';
+  main.appendChild(resetButton);
+  resetButton.addEventListener('click', function (){
+    localStorage.clear();
+    window.location.reload();
+  });
+  var canvas = document.createElement('canvas');
+  canvas.setAttribute('id','buschart');
+  canvas.style.height = '200px';
+  canvas.style.width = '200px';
+  canvas.style.backgroundColor = 'darkgrey'
+  main.appendChild(canvas); 
+
   ImageBox.innerHTML = '';
+
 
   var ctx = document.getElementById('buschart').getContext('2d');
 var chart = new Chart(ctx, {
@@ -218,27 +235,17 @@ var chart = new Chart(ctx, {
         datasets: [{
             label: 'click count',
             data: getClickCounts(),
-            backgroundColor: [
-              'black',
+            backgroundColor: 'black',
+            borderColor: 'black',
               
-            ],
-            borderColor: [
-              'black',
-              
-            ],
             borderWidth: 1
           }, 
         {
             label: 'total views',
             data: getViews(),
-            backgroundColor: [
-                'rgb(100, 125, 125)', 
-                
-              ],
-            borderColor: [
-                'rgb(150, 150, 100)',
-            ],
-            borderWidth: 1
+            backgroundColor: 'rgb(100, 125, 125)', 
+            borderColor: 'rgb(150, 150, 100)',
+            borderWidth: 1,
 
         }]
         
