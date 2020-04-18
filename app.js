@@ -30,10 +30,7 @@ function renderPics(picOne, picTwo, picThree) {
   var newImg = document.createElement('img');
   newImg.src = picOne.imageSrc;
   newImg.id = picOne.imageSrc;
-  //console.log(picOne);
-
-
-
+  
   newLi1.appendChild(newImg);
   newLi1.appendChild(clickInfo);
 console.log('newLi1', newLi1);
@@ -74,21 +71,18 @@ console.log('newLi3', newLi3);
       return
     }
     
-   // console.log('image clicked ', event.target.src);
     var tempSrc = event.target.src.split('/');
     var index
     console.log('TempSrc', tempSrc);
     
     var fileName = tempSrc[4];
-    //console.log('filename', fileName[0]);
+    
     for (var i = 0; i < allPics.length; i++){
-     // console.log(allPics[i].nameOfProduct);
-      if (allPics[i].nameOfProduct == fileName){
+          if (allPics[i].nameOfProduct == fileName){
         index = i;
       }
     }
-    //console.log(allPics[0].clickCount)
-    //console.log(index);
+   
     allPics[index].clickCount++; // clicks are being counted in the array 'index'
     totalClicks++;
     localStorage.totalClicks = totalClicks;
@@ -133,11 +127,8 @@ function getRandomPics(){
 
     return returnArr;
   }
-  //console.log(putPicsOnPage);
-  // create a function to initialize the page and check local storage
-  // if nothing is in local storage, run the page through the constructor
-  // otherwise pull from local storage
-
+ 
+  //create a function to initialize the page
 function initializePage(){
   if (!localStorage.allPics){
     new ItemPics('bag.jpg');
@@ -164,62 +155,55 @@ function initializePage(){
     var randomPics = getRandomPics();
     renderPics(randomPics[0], randomPics[1], randomPics[2]);
     } else {
-      //console.log(JSON.parse(localStorage.allPics));
-      allPics = JSON.parse(localStorage.allPics);
+        allPics = JSON.parse(localStorage.allPics);
     }
     if (Number(localStorage.totalClicks) >= maxClicks) { // Add local storage
       generateChart();
     }
 }
 
-initializePage();
-//function 
+initializePage(); //calls the initialize page function
 
-
-//console.log();
-
-
-//localStorage.setItem('totalClicks', totalClicks);
-//
-
-function getProductNames(){
+function getProductNames(){  //push product names into an array
   var nameArr = [];
   for (var i = 0; i < allPics.length; i++)
     nameArr.push(allPics[i].nameOfProduct);
   return nameArr;
 }
 
-function getClickCounts(){
+function getClickCounts(){ //push number of clicks into an array
   var clickArr = [];
   for (var i = 0; i < allPics.length; i++)
     clickArr.push(allPics[i].clickCount);
   return clickArr;
 }
 
-function getViews(){
+function getViews(){ //push number of views into an array
   var viewArr = [];
   for (var i = 0; i < allPics.length; i++)
     viewArr.push(allPics[i].viewed);
   return viewArr;
 }
 
+//generate a chart using canvas, once the total clicks is 25
 function generateChart(){
   var ImageBox = document.getElementById('itemlist');
   var main = document.getElementsByTagName('main')[0];
-  var resetButton = document.createElement('button');
+  var resetButton = document.createElement('button'); //creates the button
   resetButton.setAttribute('id', 'reset');
-  resetButton.innerText = 'Reset';
+  resetButton.innerText = 'Reset Page';
   main.appendChild(resetButton);
+  // add event listener to reload page when button is clicked.
   resetButton.addEventListener('click', function (){
     localStorage.clear();
-    window.location.reload();
+    window.location.reload(); 
   });
-  var canvas = document.createElement('canvas');
+  var canvas = document.createElement('canvas'); //creates the canvas element in HTML
   canvas.setAttribute('id','buschart');
-  canvas.style.height = '200px';
+  canvas.style.height = '200px'; //sets height and width of canvas
   canvas.style.width = '200px';
-  canvas.style.backgroundColor = 'darkgrey'
-  main.appendChild(canvas); 
+  canvas.style.backgroundColor = 'darkgrey' //sets the background of the canvas
+  main.appendChild(canvas); // puts the canvas on the page
 
   ImageBox.innerHTML = '';
 
@@ -254,14 +238,7 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
-        // responsive: true,
-        // scales: {
-        //   yAxes: [{
-        //     ticks: {
-        //       beginAtZero: true
-        //     }
-        //   }]
-        // }
+        
        
       }
     
